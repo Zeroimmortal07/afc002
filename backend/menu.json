@@ -1,0 +1,86 @@
+[
+  {
+    "id": 2,
+    "name": "Masala Dosa",
+    "price": 70,
+    "category": "Breakfast",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Vada (2 pcs)",
+    "price": 50,
+    "category": "Breakfast",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 4,
+    "name": "Pongal",
+    "price": 60,
+    "category": "Breakfast",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 5,
+    "name": "Veg Meals",
+    "price": 120,
+    "category": "Lunch",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 6,
+    "name": "Curd Rice",
+    "price": 50,
+    "category": "Lunch",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 7,
+    "name": "Chicken Curry",
+    "price": 150,
+    "category": "Lunch",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 8,
+    "name": "Chapati (2 pcs)",
+    "price": 40,
+    "category": "Dinner",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 9,
+    "name": "Parotta",
+    "price": 30,
+    "category": "Dinner",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "id": 10,
+    "name": "Bajji (4 pcs)",
+    "price": 40,
+    "category": "Snacks",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    "name": "Test Dosa",
+    "price": 99,
+    "category": "Breakfast",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
+    "id": 11
+  },
+  {
+    "name": "Onion Uttapam",
+    "price": 60,
+    "category": "Breakfast",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
+    "id": 12
+  },
+  {
+    "name": "Delete Me",
+    "price": 10,
+    "category": "Snacks",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
+    "id": 13
+  }
+]

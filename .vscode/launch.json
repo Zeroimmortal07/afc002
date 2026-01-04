@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome (Development)",
+            "url": "http://localhost:3012",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///./~/*": "${webRoot}/node_modules/*",
+                "webpack:////*": "/*",
+                "webpack:///./*": "${webRoot}/*"
+            }
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome (Production)",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": false,
+            "runtimeArgs": [
+                "--disable-source-maps",
+                "--disable-features=EnableSourceMaps"
+            ],
+            "sourceMapPathOverrides": {
+                "*": null
+            }
+        }
+    ]
+}

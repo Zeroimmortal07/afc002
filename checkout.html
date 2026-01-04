@@ -1,0 +1,53 @@
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Checkout</h1>
+        
+        <!-- Mumbai Address Section -->
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <h3 class="font-bold mb-4">Delivery Address</h3>
+            <input type="text" 
+                   class="w-full p-2 border rounded mb-2" 
+                   placeholder="Flat/House No.">
+            <input type="text" 
+                   class="w-full p-2 border rounded mb-2" 
+                   placeholder="Landmark (e.g., Near Churchgate Station)">
+            <div class="grid grid-cols-2 gap-4">
+                <select class="p-2 border rounded">
+                    <option>Mumbai City</option>
+                    <option>Western Suburbs</option>
+                    <option>Central Suburbs</option>
+                </select>
+                <input type="text" 
+                       class="p-2 border rounded" 
+                       placeholder="Pincode">
+            </div>
+        </div>
+
+        <!-- Payment Options -->
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <h3 class="font-bold mb-4">Payment Method</h3>
+            <div class="space-y-2">
+                <label class="flex items-center p-3 border rounded">
+                    <input type="radio" name="payment" class="mr-2" checked>
+                    <span>UPI (PhonePe/GPay)</span>
+                </label>
+                <label class="flex items-center p-3 border rounded">
+                    <input type="radio" name="payment" class="mr-2">
+                    <span>Cash on Delivery</span>
+                </label>
+                <label class="flex items-center p-3 border rounded">
+                    <input type="radio" name="payment" class="mr-2">
+                    <span>Credit/Debit Card</span>
+                </label>
+                <label class="flex items-center p-3 border rounded">
+                    <input type="radio" name="payment" class="mr-2">
+                    <span>Mumbai Wallet (Eko, Oxigen)</span>
+                </label>
+            </div>
+        </div>
+
+        <button class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600">
+            Place Order
+        </button>
+    </div>
+</div> 

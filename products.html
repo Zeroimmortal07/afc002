@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head as login.html -->
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="products.html" class="text-xl font-bold">E-Shop</a>
+            <div class="space-x-4">
+                <a href="cart.html" class="text-gray-600 hover:text-blue-500">Cart</a>
+                <a href="profile.html" class="text-gray-600 hover:text-blue-500">Profile</a>
+                <button onclick="handleLogout()" class="text-red-500 hover:text-red-600">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Filters -->
+            <div class="w-full md:w-64">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h3 class="font-bold mb-3">Filter By:</h3>
+                    <div class="mb-4">
+                        <label class="block font-medium mb-2">Price Range</label>
+                        <select id="priceFilter" class="w-full p-2 border rounded">
+                            <option value="all">All Prices</option>
+                            <option value="cheap">Under ₹100</option>
+                            <option value="mid">₹100 - ₹500</option>
+                            <option value="high">Above ₹500</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-medium mb-2">Local Markets</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="crawford">
+                                Crawford Market
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="dadar">
+                                Dadar Market
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-medium mb-2">Mumbai Specials</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="same-day">
+                                Same Day Delivery
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="local-farms">
+                                From Local Farms
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="flex-1">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="productGrid">
+                    <!-- Product cards loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="JS/products.js"></script>
+    <script src="JS/auth.js"></script>
+</body>
+</html> 

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amma Food Center - Fresh Home Meals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 100%);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .gradient-purple {
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.2), 0 10px 10px -5px rgba(124, 58, 237, 0.1);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .8;
+            }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, #e5e5e5 25%, #f0f0f0 50%, #e5e5e5 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .bottom-modal {
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pb-24">
+
+    <!-- Header with Gradient -->
+    <header class="gradient-purple text-white px-4 py-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">Amma Food Center</h1>
+                <p class="text-xs text-purple-100 mt-0.5 font-medium">🍛 Home Cooked • ⚡ 10 Min Delivery</p>
+            </div>
+            <button onclick="document.getElementById('cart-bar').scrollIntoView({behavior: 'smooth'})" class="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span id="cart-count"
+                    class="absolute -top-2 -right-2 bg-white text-purple-600 text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-purple-500 hidden shadow-lg pulse-animation">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="px-4 pt-6 pb-4">
+        <div
+            class="max-w-7xl mx-auto bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 rounded-2xl p-6 text-white shadow-xl">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-1">Craving Home Food? 😋</h2>
+                    <p class="text-purple-100 text-sm font-medium">Fresh meals made with love, delivered in 10 mins</p>
+                    <div class="mt-3 flex items-center space-x-4 text-xs">
+                        <span class="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">✨ Hygienic</span>
+                        <span class="bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">🔥 Fresh & Hot</span>
+                    </div>
+                </div>
+                <div class="text-6xl">🍲</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="px-4 mb-5">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">Browse Menu</h3>
+            <div class="flex space-x-2 overflow-x-auto hide-scrollbar pb-2" id="categories-container">
+                <!-- Categories will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <div class="px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="menu-container">
+            <!-- Menu items will be injected here -->
+        </div>
+    </div>
+
+    <!-- Floating Cart Bar -->
+    <div id="cart-bar"
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-purple-100 px-4 py-4 shadow-[0_-10px_30px_-5px_rgba(124,58,237,0.15)] hidden z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Total Amount</p>
+                <p class="text-2xl font-bold text-gray-900">₹<span id="total-price">0</span></p>
+            </div>
+            <button onclick="openCheckoutModal()"
+                class="gradient-purple text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95">
+                Proceed to Checkout →
+            </button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-end justify-center z-[60]">
+        <div class="bottom-modal bg-white w-full max-w-lg mx-auto rounded-t-3xl p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-xl font-bold text-gray-900">Review Order</h3>
+                <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="order-summary" class="mb-5 max-h-44 overflow-y-auto text-sm bg-gray-50 rounded-xl p-4">
+                <!-- Order details here -->
+            </div>
+
+            <div class="space-y-4 mb-5">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Your Name</label>
+                    <input type="text" id="customer-name"
+                        class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors"
+                        placeholder="Enter your name">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Delivery Address</label>
+                    <textarea id="customer-address"
+                        class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors"
+                        rows="3" placeholder="Enter your full address"></textarea>
+                </div>
+            </div>
+
+            <button onclick="processCheckout()"
+                class="w-full gradient-purple text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95">
+                🚀 Place Order via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const WHATSAPP_NUMBER = "919876543210"; // Replace with Amma's WhatsApp number
+        const API_URL = "http://localhost:3000/api"; // Backend URL
+
+        // --- STATE ---
+        let menuItems = [];
+        let cart = {}; // { itemId: quantity }
+        let activeCategory = "All";
+
+        // --- RENDER FUNCTIONS ---
+        async function init() {
+            try {
+                const response = await fetch(`${API_URL}/menu`);
+                menuItems = await response.json();
+                renderCategories();
+                renderMenu();
+            } catch (error) {
+                console.error("Error fetching menu:", error);
+                document.getElementById('menu-container').innerHTML = `
+                    <div class="col-span-2 md:col-span-3 lg:col-span-4 text-center py-12">
+                        <div class="text-6xl mb-4">😔</div>
+                        <p class="text-red-500 font-semibold mb-2">Error loading menu</p>
+                        <p class="text-sm text-gray-500">Is the server running?</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCategories() {
+            const categories = ["All", ...new Set(menuItems.map(item => item.category))];
+            const container = document.getElementById('categories-container');
+
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat}')" 
+                    class="px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all transform ${activeCategory === cat
+                    ? 'bg-purple-600 text-white shadow-lg scale-105'
+                    : 'bg-white text-gray-600 border-2 border-gray-200 hover:border-purple-300'
+                }">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            renderCategories();
+            renderMenu();
+        }
+
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            const filteredItems = activeCategory === "All"
+                ? menuItems
+                : menuItems.filter(item => item.category === activeCategory);
+
+            container.innerHTML = filteredItems.map(item => {
+                const qty = cart[item.id] || 0;
+                return `
+                <div class="card-hover bg-white rounded-2xl shadow-md overflow-hidden flex flex-col border border-gray-100">
+                    <div class="h-36 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" loading="lazy">
+                        ${qty > 0 ? `<div class="absolute top-2 right-2 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">${qty}</div>` : ''}
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-bold text-gray-900 text-sm mb-2 leading-tight">${item.name}</h3>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="text-lg font-bold text-purple-600">₹${item.price}</span>
+                            ${qty === 0
+                        ? `<button onclick="updateQuantity(${item.id}, 1)" class="bg-purple-50 text-purple-600 px-4 py-2 rounded-lg text-xs font-bold hover:bg-purple-100 transition-colors border border-purple-200">ADD</button>`
+                        : `<div class="flex items-center bg-purple-600 text-white rounded-lg shadow-md">
+                                     <button onclick="updateQuantity(${item.id}, -1)" class="px-3 py-2 font-bold hover:bg-purple-700 rounded-l-lg transition-colors">−</button>
+                                     <span class="text-sm font-bold px-3">${qty}</span>
+                                     <button onclick="updateQuantity(${item.id}, 1)" class="px-3 py-2 font-bold hover:bg-purple-700 rounded-r-lg transition-colors">+</button>
+                                   </div>`
+                    }
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // --- LOGIC ---
+        function updateQuantity(itemId, change) {
+            if (!cart[itemId]) cart[itemId] = 0;
+            cart[itemId] += change;
+            if (cart[itemId] <= 0) delete cart[itemId];
+
+            renderMenu();
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalQty = Object.values(cart).reduce((a, b) => a + b, 0);
+            const totalPrice = Object.entries(cart).reduce((sum, [id, qty]) => {
+                const item = menuItems.find(i => i.id == id);
+                return sum + (item.price * qty);
+            }, 0);
+
+            // Update Header Badge
+            const badge = document.getElementById('cart-count');
+            badge.innerText = totalQty;
+            badge.classList.toggle('hidden', totalQty === 0);
+
+            // Update Bottom Bar
+            const cartBar = document.getElementById('cart-bar');
+            document.getElementById('total-price').innerText = totalPrice;
+            cartBar.classList.toggle('hidden', totalQty === 0);
+        }
+
+        function openCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            const summary = document.getElementById('order-summary');
+
+            let html = '<div class="space-y-2">';
+            Object.entries(cart).forEach(([id, qty]) => {
+                const item = menuItems.find(i => i.id == id);
+                html += `<div class="flex justify-between items-center py-2 border-b border-gray-200">
+                    <span class="font-medium text-gray-700">${qty} × ${item.name}</span>
+                    <span class="font-bold text-gray-900">₹${item.price * qty}</span>
+                </div>`;
+            });
+            html += '</div>';
+            html += `<div class="mt-4 pt-3 border-t-2 border-purple-200 flex justify-between items-center">
+                <span class="font-bold text-gray-900">Total</span>
+                <span class="text-xl font-bold text-purple-600">₹${document.getElementById('total-price').innerText}</span>
+            </div>`;
+
+            summary.innerHTML = html;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function processCheckout() {
+            const name = document.getElementById('customer-name').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+
+            if (!name || !address) {
+                alert("⚠️ Please enter your name and address.");
+                return;
+            }
+
+            // 1. Prepare Order Data
+            let totalPrice = 0;
+            const items = [];
+
+            Object.entries(cart).forEach(([id, qty]) => {
+                const item = menuItems.find(i => i.id == id);
+                const itemTotal = item.price * qty;
+                totalPrice += itemTotal;
+                items.push({
+                    name: item.name,
+                    quantity: qty,
+                    price: item.price,
+                    total: itemTotal
+                });
+            });
+
+            const orderData = {
+                name,
+                address,
+                items,
+                totalPrice
+            };
+
+            // 2. Submit to Backend
+            try {
+                const response = await fetch(`${API_URL}/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                const result = await response.json();
+                console.log("✅ Backend Response:", result);
+            } catch (error) {
+                console.error("❌ Error submitting order:", error);
+                alert("Could not save order to backend. Proceeding to WhatsApp...");
+            }
+
+            // 3. Redirect to WhatsApp
+            let orderText = `*🍛 New Order from ${name}*\n\n`;
+            items.forEach(item => {
+                orderText += `${item.quantity} × ${item.name} - ₹${item.total}\n`;
+            });
+            orderText += `\n*Total: ₹${totalPrice}*`;
+            orderText += `\n\n📍 *Delivery Address:*\n${address}`;
+
+            const encodedText = encodeURIComponent(orderText);
+            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
+
+            window.open(waUrl, '_blank');
+            closeCheckoutModal();
+
+            // Clear cart
+            cart = {};
+            updateCartUI();
+            renderMenu();
+        }
+
+        // Initialize
+        init();
+
+    </script>
+</body>
+
+</html>

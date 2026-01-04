@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - AMMA Food Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="greeting-section">
+        <h1>Your Shopping Cart</h1>
+        <p id="deliveryEstimate"></p>
+    </header>
+
+    <!-- Cart Items Section -->
+    <section class="cart-section">
+        <div class="cart-container" id="cartItems">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-item">
+                <span>Subtotal:</span>
+                <span id="subtotal">₹0</span>
+            </div>
+            <div class="summary-item">
+                <span>Delivery:</span>
+                <span id="delivery">₹40</span>
+            </div>
+            <div class="summary-item total">
+                <span>Total:</span>
+                <span id="total">₹0</span>
+            </div>
+
+            <!-- Coupon Section -->
+            <div class="coupon-section">
+                <input type="text" id="couponCode" placeholder="Enter coupon code">
+                <button onclick="applyCoupon()">Apply</button>
+            </div>
+
+            <!-- Checkout Button -->
+            <button class="checkout-btn" onclick="proceedToCheckout()">
+                Proceed to Checkout
+            </button>
+        </div>
+    </section>
+
+    <!-- Empty Cart Message -->
+    <div id="emptyCartMessage" class="empty-cart-message" style="display: none;">
+        <h2>Your cart is empty</h2>
+        <p>Add some items to your cart and they will appear here</p>
+        <a href="index.html" class="continue-shopping-btn">Continue Shopping</a>
+    </div>
+
+    <script src="JS/common.js"></script>
+    <script src="JS/localization.js"></script>
+    <script>
+        function displayCartItems() {
+            const cartContainer = document.getElementById('cartItems');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                document.getElementById('emptyCartMessage').style.display = 'block';
+                document.querySelector('.cart-section').style.display = 'none';
+                return;
+            }
+
+            let total = 0;
+            cartContainer.innerHTML = '';
+            
+            cart.forEach(item => {
+                const price = parseInt(item.price.replace('₹', ''));
+                total += price;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p class="price">${item.price}</p>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                `;
+                cartContainer.appendChild(itemElement);
+            });
+
+            // Update summary
+            document.getElementById('subtotal').textContent = `₹${total}`;
+            document.getElementById('total').textContent = `₹${total + 40}`; // Adding delivery charge
+        }
+
+        function applyCoupon() {
+            const couponCode = document.getElementById('couponCode').value;
+            // Add coupon logic here
+            alert('Coupon applied successfully!');
+        }
+
+        function proceedToCheckout() {
+            window.location.href = 'checkout.html';
+        }
+
+        // Initialize cart display
+        document.addEventListener('DOMContentLoaded', function() {
+            displayCartItems();
+            updateDeliveryEstimates(19.0760, 72.8777); // Mumbai coordinates
+        });
+    </script>
+</body>
+</html> 
