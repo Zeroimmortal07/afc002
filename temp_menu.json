@@ -1,0 +1,6 @@
+{
+    "name": "Test Item",
+    "price": 100,
+    "category": "Test",
+    "image": "http://test.com/img.jpg"
+}

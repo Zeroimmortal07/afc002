@@ -110,11 +110,16 @@
                             </select>
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Image URL</label>
-                            <input type="text" id="new-image"
-                                class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
-                                placeholder="https://..."
-                                value="https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Image</label>
+                            <div class="flex flex-col space-y-2">
+                                <input type="file" id="new-image-file" accept="image/*"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+                                <div class="text-center text-gray-400 text-sm font-medium">- OR -</div>
+                                <input type="text" id="new-image-url"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
+                                    placeholder="Enter Image URL (https://...)"
+                                    value="https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80">
+                            </div>
                         </div>
                     </div>
                     <button type="submit"
@@ -144,8 +149,9 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
-        const API_URL = "http://localhost:3000/api";
+        const API_URL = CONFIG.API_URL;
         let currentTab = 'orders';
 
         // --- TABS ---
@@ -204,62 +210,156 @@
         function renderOrders(orders) {
             const tbody = document.getElementById('orders-table');
             if (orders.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-12 text-center">
-                    <div class="text-6xl mb-3">📭</div>
-                    <p class="text-gray-500 font-semibold">No orders yet</p>
-                </td></tr>`;
+                tbody.innerHTML = `<tr>
+                        <td colspan="5" class="p-12 text-center">
+                            <div class="text-6xl mb-3">📭</div>
+                            <p class="text-gray-500 font-semibold">No orders yet</p>
+                        </td>
+                    </tr>`;
                 return;
             }
             tbody.innerHTML = orders.map(order => {
                 const date = new Date(order.timestamp).toLocaleString();
-                const itemsHtml = order.items.map(i => `<div class="text-sm text-gray-600"><span class="font-bold text-purple-600">${i.quantity}×</span> ${i.name}</div>`).join('');
+                const itemsHtml = order.items.map(i => `<div class="text-sm text-gray-600"><span
+                            class="font-bold text-purple-600">${i.quantity}×</span> ${i.name}</div>`).join('');
+
+                const status = order.status || 'pending';
+                const isPending = status === 'pending';
+                const bgClass = isPending ? 'bg-yellow-100' : 'bg-green-100';
+                const textClass = isPending ? 'text-yellow-800' : 'text-green-800';
+                const borderClass = isPending ? 'border-yellow-300' : 'border-green-300';
+
                 return `
-                <tr class="card-hover">
-                    <td class="p-5 text-sm text-gray-600 whitespace-nowrap font-medium">${date}</td>
-                    <td class="p-5">
-                        <div class="font-bold text-gray-900">${order.name}</div>
-                        <div class="text-xs text-gray-500 mt-1">${order.address}</div>
-                    </td>
-                    <td class="p-5">${itemsHtml}</td>
-                    <td class="p-5 font-bold text-lg text-purple-600">₹${order.totalPrice}</td>
-                    <td class="p-5">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1.5 rounded-full border border-yellow-300">
-                            ⏳ Pending
-                        </span>
-                    </td>
-                </tr>`;
+                    <tr class="card-hover">
+                        <td class="p-5 text-sm text-gray-600 whitespace-nowrap font-medium">${date}</td>
+                        <td class="p-5">
+                            <div class="font-bold text-gray-900">${order.name}</div>
+                            <div class="text-xs text-gray-500 mt-1">${order.address}</div>
+                            ${order.phone ? `<a href="https://wa.me/${order.phone.replace(/[^0-9]/g, '')}" target="_blank" class="text-green-600 hover:text-green-800 text-xs font-semibold flex items-center gap-1 mt-1">📞 ${order.phone}</a>` : ''}
+                        </td>
+                        <td class="p-5">${itemsHtml}</td>
+                        <td class="p-5 font-bold text-lg text-purple-600">₹${order.totalPrice}</td>
+                        <td class="p-5">
+                            <div class="flex flex-col gap-2">
+                                <select onchange="updateOrderStatus('${order.id}', this.value)" 
+                                    class="${bgClass} ${textClass} ${borderClass} text-xs font-bold px-3 py-2 rounded-full border-2 cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <option value="pending" ${isPending ? 'selected' : ''}>⏳ Pending</option>
+                                    <option value="delivered" ${!isPending ? 'selected' : ''}>✅ Delivered</option>
+                                </select>
+                                <button onclick="deleteOrder('${order.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold flex items-center gap-1 justify-center mt-1">
+                                    🗑️ Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
             }).join('');
         }
 
         function renderMenu(menu) {
             const tbody = document.getElementById('menu-table');
             tbody.innerHTML = menu.map(item => `
-                <tr class="card-hover">
-                    <td class="p-5">
-                        <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover bg-gray-100 border-2 border-gray-200 shadow-sm">
-                    </td>
-                    <td class="p-5 font-bold text-gray-900">${item.name}</td>
-                    <td class="p-5">
-                        <span class="text-sm text-gray-600 bg-purple-50 px-3 py-1 rounded-full font-medium">${item.category}</span>
-                    </td>
-                    <td class="p-5 font-bold text-lg text-purple-600">₹${item.price}</td>
-                    <td class="p-5">
-                        <button onclick="deleteItem(${item.id})" class="text-red-500 hover:text-red-700 font-bold text-sm bg-red-50 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors">
-                            🗑️ Delete
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
+                    <tr class="card-hover">
+                        <td class="p-5">
+                            <img src="${item.image}"
+                                class="w-16 h-16 rounded-xl object-cover bg-gray-100 border-2 border-gray-200 shadow-sm">
+                        </td>
+                        <td class="p-5 font-bold text-gray-900">${item.name}</td>
+                        <td class="p-5">
+                            <span
+                                class="text-sm text-gray-600 bg-purple-50 px-3 py-1 rounded-full font-medium">${item.category}</span>
+                        </td>
+                        <td class="p-5 font-bold text-lg text-purple-600">₹${item.price}</td>
+                        <td class="p-5">
+                            <button onclick="deleteItem(${item.id})"
+                                class="text-red-500 hover:text-red-700 font-bold text-sm bg-red-50 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors">
+                                🗑️ Delete
+                            </button>
+                        </td>
+                    </tr>
+                    `).join('');
         }
 
         // --- ACTIONS ---
+        async function updateOrderStatus(id, newStatus) {
+            try {
+                const response = await fetch(`${API_URL}/orders/${id}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (response.ok) {
+                    fetchData();
+                } else {
+                    alert("⚠️ Failed to update status");
+                }
+            } catch (error) {
+                console.error("Error updating status:", error);
+                alert("⚠️ Error updating order status");
+            }
+        }
+
+        async function deleteOrder(id) {
+            if (confirm("🗑️ Are you sure you want to delete this order?")) {
+                try {
+                    const response = await fetch(`${API_URL}/orders/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        fetchData();
+                        alert("✅ Order deleted successfully!");
+                    } else {
+                        alert("⚠️ Failed to delete order");
+                    }
+                } catch (error) {
+                    console.error("Error deleting order:", error);
+                    alert("⚠️ Error deleting order");
+                }
+            }
+        }
+
         document.getElementById('add-item-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const name = document.getElementById('new-name').value;
+            const price = parseInt(document.getElementById('new-price').value);
+            const category = document.getElementById('new-category').value;
+            const imageFile = document.getElementById('new-image-file').files[0];
+            const imageUrlInput = document.getElementById('new-image-url').value;
+
+            let finalImageUrl = imageUrlInput;
+
+            // Handle Image Upload
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append('image', imageFile);
+
+                try {
+                    const uploadResponse = await fetch(`${API_URL}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const uploadResult = await uploadResponse.json();
+
+                    if (uploadResult.success) {
+                        finalImageUrl = uploadResult.imageUrl;
+                    } else {
+                        alert("⚠️ Image upload failed: " + uploadResult.error);
+                        return;
+                    }
+                } catch (error) {
+                    console.error("Upload error:", error);
+                    alert("⚠️ Error uploading image");
+                    return;
+                }
+            }
+
             const newItem = {
-                name: document.getElementById('new-name').value,
-                price: parseInt(document.getElementById('new-price').value),
-                category: document.getElementById('new-category').value,
-                image: document.getElementById('new-image').value
+                name,
+                price,
+                category,
+                image: finalImageUrl
             };
 
             try {
@@ -270,6 +370,8 @@
                 });
 
                 document.getElementById('add-item-form').reset();
+                // Reset file input manually
+                document.getElementById('new-image-file').value = '';
                 fetchData();
                 alert("✅ Item added successfully!");
             } catch (error) {
@@ -295,7 +397,6 @@
         // Initial load
         fetchData();
     </script>
-    <script src="order-status.js"></script>
 </body>
 
 </html>

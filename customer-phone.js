@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Submit to Backend
         try {
-            const response = await fetch(`${API_URL}/orders`, {
+            const response = await fetch(`${CONFIG.API_URL}/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(orderData)
@@ -81,7 +81,7 @@ window.addEventListener('DOMContentLoaded', () => {
         orderText += `\n\n📱 *WhatsApp:* ${phone}`;
 
         const encodedText = encodeURIComponent(orderText);
-        const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
+        const waUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodedText}`;
 
         window.open(waUrl, '_blank');
         closeCheckoutModal();
