@@ -66,6 +66,28 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
+// 2. Admin Login
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Simple hardcoded credentials (in production, use proper authentication)
+    const ADMIN_USER = 'admin';
+    const ADMIN_PASS = 'amma123';
+
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        res.json({
+            success: true,
+            message: 'Login successful',
+            token: 'admin-authenticated' // Simple token for demo
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: 'Invalid credentials'
+        });
+    }
+});
+
 // 2. Upload Image
 app.post('/api/upload', upload.single('image'), (req, res) => {
     if (!req.file) {

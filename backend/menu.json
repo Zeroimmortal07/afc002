@@ -1,62 +1,20 @@
 [
   {
-    "id": 5,
-    "name": "Veg Meals",
-    "price": 120,
+    "name": "dwasdfgh",
+    "price": 12345,
     "category": "Lunch",
-    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
-  },
-  {
-    "id": 7,
-    "name": "Chicken Curry",
-    "price": 150,
-    "category": "Lunch",
-    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
-  },
-  {
-    "id": 9,
-    "name": "Parotta",
-    "price": 30,
-    "category": "Dinner",
-    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80"
-  },
-  {
-    "name": "Test Dosa",
-    "price": 99,
-    "category": "Breakfast",
     "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
-    "id": 11
-  },
-  {
-    "name": "Onion Uttapam",
-    "price": 60,
-    "category": "Breakfast",
-    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
-    "id": 12
-  },
-  {
-    "name": "Delete Me",
-    "price": 10,
-    "category": "Snacks",
-    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
-    "id": 13
-  },
-  {
-    "name": "g",
-    "price": 123,
-    "category": "Breakfast",
-    "image": "http://localhost:3000/uploads/1767633721482-578145309.png",
     "availability": true,
     "description": "",
-    "id": 14
+    "id": 1
   },
   {
-    "name": "df",
-    "price": 12,
-    "category": "Lunch",
-    "image": "http://localhost:3000/uploads/1767674450332-197460719.png",
+    "name": "dawsdfghj",
+    "price": 1234,
+    "category": "Breakfast",
+    "image": "http://localhost:3000/uploads/1768186874165-513704200.png",
     "availability": true,
     "description": "",
-    "id": 15
+    "id": 2
   }
 ]

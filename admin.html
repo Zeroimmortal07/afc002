@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amma Food Center - Admin Dashboard</title>
+    <title>Amma Food Center - Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -27,124 +27,190 @@
         .card-hover:hover {
             background-color: #faf5ff;
         }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
     </style>
 </head>
 
-<body class="min-h-screen p-6">
+<body class="min-h-screen">
 
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="gradient-purple text-white rounded-2xl p-6 mb-6 shadow-xl">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h1 class="text-3xl font-bold">Admin Dashboard</h1>
-                    <p class="text-purple-100 mt-1">Manage orders and menu items</p>
+    <!-- Login Section (Initially Visible) -->
+    <div id="login-section" class="login-container">
+        <div class="w-full max-w-md">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                <!-- Login Header -->
+                <div class="gradient-purple text-white p-8 text-center">
+                    <div class="text-6xl mb-4">🔐</div>
+                    <h1 class="text-3xl font-bold mb-2">Admin Login</h1>
+                    <p class="text-purple-100 text-sm">Amma Food Center Dashboard</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <span id="last-updated" class="text-sm text-purple-100 font-medium">Updating...</span>
-                    <button onclick="fetchData()"
-                        class="bg-white text-purple-600 px-5 py-2 rounded-xl font-bold hover:shadow-lg transition-all transform hover:scale-105">
-                        🔄 Refresh
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Tabs -->
-        <div class="flex space-x-3 mb-6">
-            <button onclick="switchTab('orders')" id="tab-orders"
-                class="px-6 py-3 rounded-xl font-bold transition-all bg-purple-600 text-white shadow-lg">
-                📦 Orders
-            </button>
-            <button onclick="switchTab('menu')" id="tab-menu"
-                class="px-6 py-3 rounded-xl font-bold transition-all bg-white text-gray-600 hover:bg-purple-50">
-                🍽️ Manage Menu
-            </button>
-        </div>
-
-        <!-- Orders Section -->
-        <div id="section-orders" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-purple-50 border-b-2 border-purple-200">
-                    <tr>
-                        <th class="p-5 font-bold text-purple-900 text-sm">⏰ Time</th>
-                        <th class="p-5 font-bold text-purple-900 text-sm">👤 Customer</th>
-                        <th class="p-5 font-bold text-purple-900 text-sm">🛒 Items</th>
-                        <th class="p-5 font-bold text-purple-900 text-sm">💰 Total</th>
-                        <th class="p-5 font-bold text-purple-900 text-sm">📊 Status</th>
-                    </tr>
-                </thead>
-                <tbody id="orders-table" class="divide-y divide-gray-100">
-                    <!-- Orders will be injected here -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Menu Section -->
-        <div id="section-menu" class="hidden space-y-6">
-            <!-- Add Item Form -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                <h2 class="text-xl font-bold mb-5 text-gray-900">➕ Add New Menu Item</h2>
-                <form id="add-item-form" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Item Name</label>
-                            <input type="text" id="new-name"
-                                class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
-                                placeholder="e.g., Mysore Masala Dosa" required>
-                        </div>
+                <!-- Login Form -->
+                <div class="p-8">
+                    <form id="login-form" class="space-y-5">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Price (₹)</label>
-                            <input type="number" id="new-price"
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Username</label>
+                            <input type="text" id="username" required
                                 class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
-                                placeholder="e.g., 80" required>
+                                placeholder="Enter username">
                         </div>
+
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Category</label>
-                            <select id="new-category"
-                                class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium">
-                                <option>Breakfast</option>
-                                <option>Lunch</option>
-                                <option>Dinner</option>
-                                <option>Snacks</option>
-                            </select>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
+                            <input type="password" id="password" required
+                                class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
+                                placeholder="Enter password">
                         </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Image</label>
-                            <div class="flex flex-col space-y-2">
-                                <input type="file" id="new-image-file" accept="image/*"
-                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
-                                <div class="text-center text-gray-400 text-sm font-medium">- OR -</div>
-                                <input type="text" id="new-image-url"
-                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
-                                    placeholder="Enter Image URL (https://...)"
-                                    value="https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80">
-                            </div>
+
+                        <div id="login-error"
+                            class="hidden bg-red-50 border-2 border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-semibold">
+                            Invalid credentials
                         </div>
+
+                        <button type="submit"
+                            class="w-full gradient-purple text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95">
+                            🚀 Login to Dashboard
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-center text-sm text-gray-500">
+                        <p>Default credentials:</p>
+                        <p class="font-mono bg-gray-50 rounded-lg p-2 mt-2">
+                            <strong>Username:</strong> admin<br>
+                            <strong>Password:</strong> amma123
+                        </p>
                     </div>
-                    <button type="submit"
-                        class="w-full gradient-purple text-white py-3 px-4 rounded-xl font-bold hover:shadow-lg transition-all transform hover:scale-105">
-                        ✨ Add Item to Menu
-                    </button>
-                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Section (Initially Hidden) -->
+    <div id="dashboard-section" class="hidden p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="gradient-purple text-white rounded-2xl p-6 mb-6 shadow-xl">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+                        <p class="text-purple-100 mt-1">Manage orders and menu items</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span id="last-updated" class="text-sm text-purple-100 font-medium">Updating...</span>
+                        <button onclick="fetchData()"
+                            class="bg-white text-purple-600 px-5 py-2 rounded-xl font-bold hover:shadow-lg transition-all transform hover:scale-105">
+                            🔄 Refresh
+                        </button>
+                        <button onclick="logout()"
+                            class="bg-red-500 text-white px-5 py-2 rounded-xl font-bold hover:bg-red-600 transition-all transform hover:scale-105">
+                            🚪 Logout
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Menu List -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+            <!-- Tabs -->
+            <div class="flex space-x-3 mb-6">
+                <button onclick="switchTab('orders')" id="tab-orders"
+                    class="px-6 py-3 rounded-xl font-bold transition-all bg-purple-600 text-white shadow-lg">
+                    📦 Orders
+                </button>
+                <button onclick="switchTab('menu')" id="tab-menu"
+                    class="px-6 py-3 rounded-xl font-bold transition-all bg-white text-gray-600 hover:bg-purple-50">
+                    🍽️ Manage Menu
+                </button>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="section-orders" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-purple-50 border-b-2 border-purple-200">
                         <tr>
-                            <th class="p-5 font-bold text-purple-900 text-sm">🖼️ Image</th>
-                            <th class="p-5 font-bold text-purple-900 text-sm">📝 Name</th>
-                            <th class="p-5 font-bold text-purple-900 text-sm">🏷️ Category</th>
-                            <th class="p-5 font-bold text-purple-900 text-sm">💵 Price</th>
-                            <th class="p-5 font-bold text-purple-900 text-sm">⚙️ Actions</th>
+                            <th class="p-5 font-bold text-purple-900 text-sm">⏰ Time</th>
+                            <th class="p-5 font-bold text-purple-900 text-sm">👤 Customer</th>
+                            <th class="p-5 font-bold text-purple-900 text-sm">🛒 Items</th>
+                            <th class="p-5 font-bold text-purple-900 text-sm">💰 Total</th>
+                            <th class="p-5 font-bold text-purple-900 text-sm">📊 Status</th>
                         </tr>
                     </thead>
-                    <tbody id="menu-table" class="divide-y divide-gray-100">
-                        <!-- Menu items will be injected here -->
+                    <tbody id="orders-table" class="divide-y divide-gray-100">
+                        <!-- Orders will be injected here -->
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Menu Section -->
+            <div id="section-menu" class="hidden space-y-6">
+                <!-- Add Item Form -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <h2 class="text-xl font-bold mb-5 text-gray-900">➕ Add New Menu Item</h2>
+                    <form id="add-item-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Item Name</label>
+                                <input type="text" id="new-name"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
+                                    placeholder="e.g., Mysore Masala Dosa" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Price (₹)</label>
+                                <input type="number" id="new-price"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
+                                    placeholder="e.g., 80" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Category</label>
+                                <select id="new-category"
+                                    class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium">
+                                    <option>Breakfast</option>
+                                    <option>Lunch</option>
+                                    <option>Dinner</option>
+                                    <option>Snacks</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Image</label>
+                                <div class="flex flex-col space-y-2">
+                                    <input type="file" id="new-image-file" accept="image/*"
+                                        class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+                                    <div class="text-center text-gray-400 text-sm font-medium">- OR -</div>
+                                    <input type="text" id="new-image-url"
+                                        class="w-full border-2 border-gray-200 rounded-xl p-3 focus:border-purple-500 focus:outline-none transition-colors font-medium"
+                                        placeholder="Enter Image URL (https://...)"
+                                        value="https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full gradient-purple text-white py-3 px-4 rounded-xl font-bold hover:shadow-lg transition-all transform hover:scale-105">
+                            ✨ Add Item to Menu
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Menu List -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-purple-50 border-b-2 border-purple-200">
+                            <tr>
+                                <th class="p-5 font-bold text-purple-900 text-sm">🖼️ Image</th>
+                                <th class="p-5 font-bold text-purple-900 text-sm">📝 Name</th>
+                                <th class="p-5 font-bold text-purple-900 text-sm">🏷️ Category</th>
+                                <th class="p-5 font-bold text-purple-900 text-sm">💵 Price</th>
+                                <th class="p-5 font-bold text-purple-900 text-sm">⚙️ Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="menu-table" class="divide-y divide-gray-100">
+                            <!-- Menu items will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -153,6 +219,64 @@
     <script>
         const API_URL = CONFIG.API_URL;
         let currentTab = 'orders';
+        let isLoggedIn = false;
+
+        // --- CHECK AUTH STATUS ON LOAD ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const authToken = localStorage.getItem('adminToken');
+            if (authToken === 'admin-authenticated') {
+                showDashboard();
+            }
+        });
+
+        // --- LOGIN ---
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            try {
+                const response = await fetch(`${API_URL}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    localStorage.setItem('adminToken', result.token);
+                    errorDiv.classList.add('hidden');
+                    showDashboard();
+                } else {
+                    errorDiv.textContent = result.message;
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorDiv.textContent = 'Connection error. Is the server running?';
+                errorDiv.classList.remove('hidden');
+            }
+        });
+
+        // --- SHOW/HIDE SECTIONS ---
+        function showDashboard() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('dashboard-section').classList.remove('hidden');
+            isLoggedIn = true;
+            fetchData();
+        }
+
+        function logout() {
+            localStorage.removeItem('adminToken');
+            document.getElementById('dashboard-section').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+            isLoggedIn = false;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
 
         // --- TABS ---
         function switchTab(tab) {
@@ -175,7 +299,11 @@
 
         // --- DATA FETCHING ---
         async function fetchData() {
+            if (!isLoggedIn) return;
+
             const btn = document.querySelector('button[onclick="fetchData()"]');
+            if (!btn) return;
+
             const originalText = btn.innerHTML;
             btn.innerHTML = "⏳ Loading...";
 
@@ -391,11 +519,12 @@
             }
         }
 
-        // Auto-refresh every 30 seconds
-        setInterval(fetchData, 30000);
-
-        // Initial load
-        fetchData();
+        // Auto-refresh every 30 seconds when logged in
+        setInterval(() => {
+            if (isLoggedIn) {
+                fetchData();
+            }
+        }, 30000);
     </script>
 </body>
 
