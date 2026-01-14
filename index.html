@@ -283,12 +283,20 @@
         // --- RENDER FUNCTIONS ---
         async function init() {
             try {
-                const response = await fetch(`${API_URL}/menu`);
+                let response = await fetch(`${API_URL}/menu`);
+                if (!response.ok) response = await fetch('menu.json');
                 menuItems = await response.json();
                 renderCategories();
                 renderMenu();
             } catch (error) {
                 console.error("Error fetching menu:", error);
+                try {
+                    const response = await fetch('menu.json');
+                    menuItems = await response.json();
+                    renderCategories();
+                    renderMenu();
+                    return;
+                } catch (e) { }
                 document.getElementById('menu-container').innerHTML = `
                     <div class="col-span-2 md:col-span-3 lg:col-span-4 text-center py-12">
                         <div class="text-6xl mb-4">😔</div>

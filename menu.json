@@ -1,0 +1,20 @@
+[
+  {
+    "name": "dwasdfgh",
+    "price": 12345,
+    "category": "Lunch",
+    "image": "https://images.unsplash.com/photo-1589301760574-0a6f91d25815?auto=format&fit=crop&w=300&q=80",
+    "availability": true,
+    "description": "",
+    "id": 1
+  },
+  {
+    "name": "dawsdfghj",
+    "price": 1234,
+    "category": "Breakfast",
+    "image": "/backend/uploads/1768186874165-513704200.png",
+    "availability": true,
+    "description": "",
+    "id": 2
+  }
+]

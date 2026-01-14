@@ -329,7 +329,8 @@
         }
 
         async function fetchMenu() {
-            const response = await fetch(`${API_URL}/menu`);
+            let response = await fetch(`${API_URL}/menu`);
+            if (!response.ok) response = await fetch('menu.json');
             const menu = await response.json();
             renderMenu(menu);
         }

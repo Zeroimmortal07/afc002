@@ -33,7 +33,7 @@ const upload = multer({ storage: storage });
 
 // Data File Paths
 const ORDERS_FILE = path.join(__dirname, 'orders.json');
-const MENU_FILE = path.join(__dirname, 'menu.json');
+const MENU_FILE = path.join(__dirname, '../menu.json');
 
 // --- HELPER FUNCTIONS ---
 function readJsonFile(filePath, defaultValue = []) {
@@ -93,7 +93,8 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
     }
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    // Return relative URL so it works on Netlify and Localhost
+    const imageUrl = `/backend/uploads/${req.file.filename}`;
     res.json({ success: true, imageUrl: imageUrl });
 });
 
